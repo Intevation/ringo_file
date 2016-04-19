@@ -1,3 +1,4 @@
+from sqlalchemy.ext.declarative import declared_attr
 import sqlalchemy as sa
 from ringo.model import Base
 from ringo.model.base import BaseItem, BaseFactory
@@ -32,3 +33,31 @@ class File(BaseItem, Owned, Base):
     @classmethod
     def get_item_factory(cls):
         return FileFactory(cls)
+
+
+class Filed(object):
+    """Mixin to make items of other modules fileable. This means the
+    will get a relation named files linked to files attached to the item."""
+
+    @declared_attr
+    def files(cls):
+        clsname = cls.__name__.lower()
+        tbl_name = "nm_%s_files" % clsname
+        nm_table = sa.Table(tbl_name, Base.metadata,
+                            sa.Column('%s_id' % clsname, sa.Integer,
+                                      sa.ForeignKey(cls.id)),
+                            sa.Column('file_id', sa.Integer,
+                                      sa.ForeignKey("files.id")))
+        files = sa.orm.relationship(File, secondary=nm_table,
+                                    single_parent=True,
+                                    backref="items")
+        return files
+
+
+# Delete orphaned files. See details on:
+# http://stackoverflow.com/questions/9234082/setting-delete-orphan-on-sqlalchemy-relationship-causes-assertionerror-this-att
+@sa.event.listens_for(sa.orm.Session, 'after_flush')
+def delete_tag_orphans(session, ctx):
+        session.query(File).\
+        filter(~File.items.any()).\
+        delete(synchronize_session=False)
