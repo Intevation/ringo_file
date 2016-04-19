@@ -28,7 +28,8 @@ def includeme(config):
 
     """
     modul = register_modul(config, modul_config)
-    File._modul_id = modul.get_value("id")
-    translators.append(TranslationStringFactory('ringo_file'))
-    config.add_translation_dirs('ringo_file:locale/')
+    if modul:
+        File._modul_id = modul.get_value("id")
+        translators.append(TranslationStringFactory('ringo_file'))
+        config.add_translation_dirs('ringo_file:locale/')
 
