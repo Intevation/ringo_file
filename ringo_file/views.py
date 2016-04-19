@@ -3,12 +3,8 @@
 
 import logging
 import mimetypes
-from pyramid.view import view_config
 
 from ringo.views.base import create, update, read
-from ringo.lib.helpers import get_action_routename
-from ringo_file.model import File
-
 from ringo.views.base import web_action_view_mapping
 
 log = logging.getLogger(__name__)
@@ -51,7 +47,11 @@ def download(request):
     item = result['item']
     response = request.response
     response.content_type = str(item.mime)
-    response.content_disposition = 'attachment; filename="%s"' % item.name
+    extension = mimetypes.guess_extension(item.mime)
+    label = item.get_value("name", expand=True)
+    filename = "%(filename)s%(suffix)s" % {"filename": label,
+                                           "suffix": extension}
+    response.content_disposition = 'attachment; filename="%s"' % filename
     response.body = item.data
     return response
 
