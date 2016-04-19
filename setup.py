@@ -1,17 +1,17 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.0'
+version = '1.0'
 
 setup(name='ringo_file',
       version=version,
-      description="Extension for the ringo webframework",
+      description="Extension for file attachments in the ringo webframework",
       long_description="""""",
       classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='ringo pyramid extension',
-      author='',
-      author_email='',
-      url='',
+      author='Torsten Irländer',
+      author_email='torsten.irlaender@googlemail.com',
+      url='https://github.com/ringo-framework/ringo_file',
       license='GPL',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
