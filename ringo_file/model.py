@@ -56,8 +56,9 @@ class Filed(object):
 
 # Delete orphaned files. See details on:
 # http://stackoverflow.com/questions/9234082/setting-delete-orphan-on-sqlalchemy-relationship-causes-assertionerror-this-att
-@sa.event.listens_for(sa.orm.Session, 'after_flush')
-def delete_tag_orphans(session, ctx):
+# after_flush did not work so clean up right before the commit.
+@sa.event.listens_for(sa.orm.Session, 'before_commit')
+def delete_tag_orphans(session):
         session.query(File).\
         filter(~File.items.any()).\
         delete(synchronize_session=False)
