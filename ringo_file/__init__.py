@@ -4,6 +4,9 @@ from ringo.lib.i18n import translators
 from ringo.lib.extension import register_modul
 from ringo.lib.helpers import dynamic_import
 
+# This import is needed to trigger "registering" the views.
+import ringo_file.views
+
 # Import models so that alembic is able to autogenerate migrations
 # scripts.
 from ringo_file.model import File
@@ -32,4 +35,3 @@ def includeme(config):
         File._modul_id = modul.get_value("id")
         translators.append(TranslationStringFactory('ringo_file'))
         config.add_translation_dirs('ringo_file:locale/')
-

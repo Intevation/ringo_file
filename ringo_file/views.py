@@ -9,6 +9,8 @@ from ringo.views.base import create, update, read
 from ringo.lib.helpers import get_action_routename
 from ringo_file.model import File
 
+from ringo.views.base import web_action_view_mapping
+
 log = logging.getLogger(__name__)
 
 
@@ -36,22 +38,14 @@ def save_file(request, item):
     return item
 
 
-@view_config(route_name=get_action_routename(File, 'create'),
-             renderer='/default/create.mako',
-             permission='create')
 def create_(request):
     return create(request, callback=save_file)
 
 
-@view_config(route_name=get_action_routename(File, 'update'),
-             renderer='/default/update.mako',
-             permission='update')
 def update_(request):
     return update(request, callback=save_file)
 
 
-@view_config(route_name=get_action_routename(File, 'download'),
-             permission='download')
 def download(request):
     result = read(request)
     item = result['item']
@@ -60,3 +54,12 @@ def download(request):
     response.content_disposition = 'attachment; filename="%s"' % item.name
     response.body = item.data
     return response
+
+
+web_action_view_mapping["default"]["download"] = download
+# FIXME: 2016-04-19: Tried to overwrite the routing with view_config but
+# without success. Looked in ringo_printtemplates how it is done there.
+web_action_view_mapping["files"] = {}
+web_action_view_mapping["files"]["create"] = create_
+web_action_view_mapping["files"]["update"] = update_
+web_action_view_mapping["files"]["download"] = download
