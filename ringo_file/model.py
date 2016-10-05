@@ -1,5 +1,6 @@
 from sqlalchemy.ext.declarative import declared_attr
 import sqlalchemy as sa
+from ringo.lib.alchemy import get_relations_from_clazz
 from ringo.model import Base
 from ringo.model.base import BaseItem, BaseFactory
 from ringo.model.mixins import Owned
@@ -33,6 +34,16 @@ class File(BaseItem, Owned, Base):
     @classmethod
     def get_item_factory(cls):
         return FileFactory(cls)
+
+    @property
+    def linked(self):
+        """Will return a list of all items which are linked to this file
+        instance."""
+        linked = []
+        for relation in get_relations_from_clazz(File):
+            if relation.endswith("_items"):
+                linked.extend(getattr(self, relation, []))
+        return linked
 
 
 class Filed(object):

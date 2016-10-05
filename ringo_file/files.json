@@ -2,6 +2,7 @@
     "overview": {
         "columns": [
             {"name": "name", "label": "Name"},
+            {"name": "linked", "label": "Linked"},
             {"name": "mime", "label": "Mime", "width": "100"},
             {"name": "size", "label": "Size", "width": "100"}
         ]
