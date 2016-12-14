@@ -31,6 +31,12 @@ class File(BaseItem, Owned, Base):
     size = sa.Column('size', sa.Integer, nullable=True, default=None)
     mime = sa.Column('mime', sa.Text, nullable=True, default=None)
 
+    custom_1 = sa.Column('custom_1', sa.Integer, nullable=True, default=None)
+    """Additional field to the file. Is not used on default but can be
+    used by other application if needed. In this case the application
+    should overwrite the file form to include the formelement with the
+    needed options."""
+
     @classmethod
     def get_item_factory(cls):
         return FileFactory(cls)
