@@ -6,6 +6,9 @@
       than the origin filename will be used as name.</help>
     </entity>
     <entity id="file" name="file" label="File" type="file"/>
+    <entity id="filepreview" name="_file" label="Preview">
+      <renderer type="filepreview"/>
+    </entity>
     <entity id="description" name="description" label="Description" type="string">
       <renderer type="textarea"/>
     </entity>
@@ -37,30 +40,30 @@
 
   <snippet id="read_snippet">
     <row>
-      <col><field ref="name"/></col>
-    </row>
-    <row>
-      <col><field ref="size"/></col>
-      <col><field ref="mime"/></col>
-    </row>
-    <row>
-      <col><field ref="description"/></col>
+      <col width="8">
+        <row>
+          <col>
+            <field ref="name"/>
+          </col>
+        </row>
+        <row>
+          <col><field ref="size"/></col>
+          <col><field ref="mime"/></col>
+        </row>
+        <row>
+          <col><field ref="description"/></col>
+        </row>
+      </col>
+      <col width="4">
+        <field ref="filepreview"/>
+      </col>
     </row>
   </snippet>
 
   <snippet id="edit_snippet">
+    <snippet ref="read_snippet"/>
     <row>
       <col><field ref="file"/></col>
-    </row>
-    <row>
-      <col><field ref="name"/></col>
-    </row>
-    <row>
-      <col><field ref="size"/></col>
-      <col><field ref="mime"/></col>
-    </row>
-    <row>
-      <col><field ref="description"/></col>
     </row>
   </snippet>
 
