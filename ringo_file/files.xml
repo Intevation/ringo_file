@@ -28,13 +28,13 @@
   <!-- Create-->
   <snippet id="create_snippet">
     <row>
-      <col><field ref="file"/></col>
-    </row>
-    <row>
       <col><field ref="name"/></col>
     </row>
     <row>
       <col><field ref="description"/></col>
+    </row>
+    <row>
+      <col><field ref="file"/></col>
     </row>
   </snippet>
 
