@@ -2,6 +2,7 @@ from sqlalchemy.ext.declarative import declared_attr
 import sqlalchemy as sa
 from ringo.lib.alchemy import get_relations_from_clazz
 from ringo.model import Base
+from ringo.model.datatypes import Json
 from ringo.model.base import BaseItem, BaseFactory
 from ringo.model.mixins import Owned
 
@@ -31,11 +32,18 @@ class File(BaseItem, Owned, Base):
     size = sa.Column('size', sa.Integer, nullable=True, default=None)
     mime = sa.Column('mime', sa.Text, nullable=True, default=None)
 
+    custom_tags = sa.Column('custom_tags', Json, nullable=True, default=None)
+    """Additional field to the file. Is not used on default but can be
+    used by other application if needed. In this case the application
+    should overwrite the file form to include the formelement with the
+    needed options."""
+
     custom_1 = sa.Column('custom_1', sa.Integer, nullable=True, default=None)
     """Additional field to the file. Is not used on default but can be
     used by other application if needed. In this case the application
     should overwrite the file form to include the formelement with the
     needed options."""
+
 
     @classmethod
     def get_item_factory(cls):
