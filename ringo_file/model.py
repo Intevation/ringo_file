@@ -75,5 +75,5 @@ class Filed(object):
                                       sa.ForeignKey("files.id")))
         files = sa.orm.relationship(File, secondary=nm_table,
                                     single_parent=True,
-                                    backref="%s_items" % clsname)
+                                    backref="%ss" % clsname)
         return files
