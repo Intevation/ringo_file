@@ -46,8 +46,10 @@ def download(request):
     result = read(request)
     item = result['item']
     response = request.response
-    response.content_type = str(item.mime)
-    extension = mimetypes.guess_extension(item.mime)
+    extension = ""
+    if item.mime:
+        response.content_type = str(item.mime)
+        extension = mimetypes.guess_extension(item.mime)
     label = item.get_value("name", expand=True)
     filename = "%(filename)s%(suffix)s" % {"filename": label,
                                            "suffix": extension}
