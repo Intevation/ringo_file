@@ -10,6 +10,12 @@ from ringo.model.mixins import Owned
 class FileFactory(BaseFactory):
 
     def create(self, user=None, values=None):
+        # Hack! We have a not null constraint on the datafild. But the
+        # value will be actually set in a savedata callback.
+        if values is None:
+            values = {}
+        if "data" not in values:
+            values["data"] = 'EMPTY'
         new_item = BaseFactory.create(self, user, values)
         return new_item
 
