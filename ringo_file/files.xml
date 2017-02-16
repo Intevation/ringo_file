@@ -5,10 +5,10 @@
       <help>You can define an alternative name for the file. If left blank
       than the origin filename will be used as name.</help>
     </entity>
-    <entity id="file" name="file" label="File" type="file">
+    <entity id="file" name="_file" label="File" type="file">
       <validator src="ringo_file.views.empty_file_validator" msg="This field is required. You must provide a value"/>
     </entity>
-    <entity id="filepreview" name="_file" label="Showcase">
+    <entity id="filepreview" name="_filepreview" label="Showcase">
       <renderer type="filepreview"/>
     </entity>
     <entity id="description" name="description" label="Description" type="string">

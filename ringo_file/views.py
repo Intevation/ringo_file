@@ -20,9 +20,9 @@ def save_file(request, item):
         #  FIXME: Use global helper method for this??? (ti) <2015-01-31
         #  16:49>
         # Rewind file
-        request.POST.get('file').file.seek(0)
-        data = request.POST.get('file').file.read()
-        filename = request.POST.get('file').filename
+        request.POST.get('_file').file.seek(0)
+        data = request.POST.get('_file').file.read()
+        filename = request.POST.get('_file').filename
         item.data = data
         item.size = len(data)
         item.mime = mimetypes.guess_type(filename)[0]
@@ -38,7 +38,7 @@ def empty_file_validator(field, data, form):
     """Formbar external validator to ensure that the user provides a
     file in the create form. Create form is recognized by checking if
     the current item was alread saved to the database."""
-    if data['file'] is not None or form._item.id is not None:
+    if data['_file'] is not None or form._item.id is not None:
         return True
     return False
 
