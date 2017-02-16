@@ -25,8 +25,8 @@ class File(BaseItem, Owned, Base):
 
     # Define columns of the table in the database
     id = sa.Column(sa.Integer, primary_key=True)
-    name = sa.Column('name', sa.Text, nullable=True, default=None)
-    data = sa.Column('data', sa.LargeBinary, nullable=True, default=None)
+    name = sa.Column('name', sa.Text, nullable=False, default=None)
+    data = sa.Column('data', sa.LargeBinary, nullable=False)
     description = sa.Column('description', sa.Text,
                             nullable=True, default=None)
     size = sa.Column('size', sa.Integer, nullable=True, default=None)
@@ -43,7 +43,6 @@ class File(BaseItem, Owned, Base):
     used by other application if needed. In this case the application
     should overwrite the file form to include the formelement with the
     needed options."""
-
 
     @classmethod
     def get_item_factory(cls):
