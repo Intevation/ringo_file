@@ -35,6 +35,5 @@ def render_file_preview(request, item, column, tableconfig):
     overview"""
     if isinstance(item, tuple):
         item = item[0]
-    url = request.route_path(get_action_routename(item, "download"), id=item.id)
-    return literal('<embed src="{}" height="25" type="{}">'.format(url, item.mime))
-
+    url = request.route_path(get_action_routename(item, "download"), id=item.id, _query={"thumbnail": 1})
+    return literal('<embed src="{}" type="{}">'.format(url, item.mime))

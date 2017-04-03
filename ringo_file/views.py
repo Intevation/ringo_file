@@ -3,11 +3,28 @@
 
 import logging
 import mimetypes
+import StringIO
+from PIL import Image
 
 from ringo.views.base import create, update, read
 from ringo.views.base import web_action_view_mapping
 
 log = logging.getLogger(__name__)
+
+THUMBNAIL_SIZE = 64
+
+
+def create_thumbnail(image_data):
+    """Will return a thumbnail image of the given image. Image is
+    provides as base64 data"""
+    thumbnail_data = StringIO.StringIO()
+    image = Image.open(StringIO.StringIO(image_data))
+    x, y = image.size
+    scale = x/THUMBNAIL_SIZE
+    image.thumbnail((x/scale, y/scale))
+    image.save(thumbnail_data, image.format.lower())
+    thumbnail_data.seek(0)
+    return thumbnail_data.read()
 
 
 def save_file(request, item):
@@ -26,6 +43,8 @@ def save_file(request, item):
         item.data = data
         item.size = len(data)
         item.mime = mimetypes.guess_type(filename)[0]
+        if item.mime.startswith("image/"):
+            item.thumbnail = create_thumbnail(data)
         if not request.POST.get('name'):
             item.name = filename
     except AttributeError:
@@ -53,6 +72,7 @@ def update_(request):
 
 def download(request):
     result = read(request)
+    thumbnail = request.GET.get("thumbnail") == "1"
     item = result['item']
     response = request.response
     extension = ""
@@ -62,10 +82,14 @@ def download(request):
     label = item.get_value("name", expand=True)
     filename = "%(filename)s%(suffix)s" % {"filename": label,
                                            "suffix": extension}
+    if thumbnail:
+        filename = "thumb_" + filename
     response.content_disposition = 'attachment; filename="%s"' % filename
-    response.body = item.data
+    if thumbnail:
+        response.body = item.thumbnail
+    else:
+        response.body = item.data
     return response
-
 
 web_action_view_mapping["default"]["download"] = download
 # FIXME: 2016-04-19: Tried to overwrite the routing with view_config but

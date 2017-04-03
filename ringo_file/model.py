@@ -33,6 +33,7 @@ class File(BaseItem, Owned, Base):
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column('name', sa.Text, nullable=False, default=None)
     data = sa.Column('data', sa.LargeBinary, nullable=False)
+    thumbnail = sa.Column('thumbnail', sa.LargeBinary)
     description = sa.Column('description', sa.Text,
                             nullable=True, default=None)
     size = sa.Column('size', sa.Integer, nullable=True, default=None)
