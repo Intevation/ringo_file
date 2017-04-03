@@ -82,10 +82,10 @@ def download(request):
     label = item.get_value("name", expand=True)
     filename = "%(filename)s%(suffix)s" % {"filename": label,
                                            "suffix": extension}
-    if thumbnail:
+    if thumbnail and item.thumbnail:
         filename = "thumb_" + filename
     response.content_disposition = 'attachment; filename="%s"' % filename
-    if thumbnail:
+    if thumbnail and item.thumbnail:
         response.body = item.thumbnail
     else:
         response.body = item.data
