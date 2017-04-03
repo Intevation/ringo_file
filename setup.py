@@ -20,7 +20,8 @@ setup(name='ringo_file',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'ringo'
+          'ringo',
+          'pillow'
       ],
       entry_points="""
       # -*- Entry points: -*-
