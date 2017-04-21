@@ -27,6 +27,7 @@ class PreviewFieldRenderer(FieldRenderer):
         item = self._field._form._item
         values["url"] = request.route_path(get_action_routename(item, "download"), id=item.id)
         values["mime"] = item.mime
+        values["item"] = item
         return values
 
 
