@@ -34,7 +34,10 @@ class PreviewFieldRenderer(FieldRenderer):
 
 def render_file_preview(request, item, column, tableconfig):
     """Returns HTML code to embed a small preview of the file in the
-    overview"""
+    overview if it is a image. Other file formats are not supported."""
     if isinstance(item, tuple):
         item = item[0]
-    return literal('<embed src="data:{};base64,{}" type="{}">'.format(item.mime, base64.b64encode(item.thumbnail), item.mime))
+    if item.mime.startswith("image"):
+        return literal('<img src="data:{};base64,{}"/>'.format(item.mime, base64.b64encode(item.thumbnail)))
+    else:
+        return ""
