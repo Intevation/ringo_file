@@ -15,7 +15,7 @@ from ringo_file.renderer import PreviewFieldRenderer
 log = logging.getLogger(__name__)
 
 modul_config = {
-    "name": "file",
+    "name": "files",
     "label": "",
     "clazzpath": "ringo_file.model.File",
     "label_plural": "",
