@@ -78,7 +78,8 @@ class Filed(object):
                             sa.Column('%s_id' % clsname, sa.Integer,
                                       sa.ForeignKey(cls.id)),
                             sa.Column('file_id', sa.Integer,
-                                      sa.ForeignKey("files.id")))
+                                      sa.ForeignKey("files.id")),
+                            sa.UniqueConstraint('%s_id' % clsname, 'file_id'))
         files = sa.orm.relationship(File, secondary=nm_table,
                                     single_parent=True,
                                     backref="%ss" % clsname)
