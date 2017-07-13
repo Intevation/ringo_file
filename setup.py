@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '1.0'
+version = '1.1'
 
 setup(name='ringo_file',
       version=version,
