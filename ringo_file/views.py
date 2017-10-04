@@ -78,7 +78,10 @@ def download(request):
     extension = ""
     if item.mime:
         response.content_type = str(item.mime)
-        extension = mimetypes.guess_extension(item.mime)
+        if str(item.mime) == "text/plain":
+            extension = ".txt"
+        else:
+            extension = mimetypes.guess_extension(item.mime)
     label = item.get_value("name", expand=True)
     filename = "%(filename)s%(suffix)s" % {"filename": label,
                                            "suffix": extension}
