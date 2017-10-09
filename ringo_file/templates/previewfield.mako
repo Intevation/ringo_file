@@ -4,11 +4,14 @@
     % if mime.find("image") > -1:
       <a href="#" class="nospinner thumbnail" title="${item}"><img src="${url}" class="img-responsive img-thumbnail"></a>
     % else:
-      <object data="${url}" type="${mime}">
-        <p>It appears you don't have support for the filetype in this web
-          browser. <a href="${url}" class="nospinner">Click here to download the File.</a></p>
-        <embed src="${url}" type="${mime}" />
-      </object>
+        % if mime.find("pdf") > -1:
+          <object data="${url}" type="${mime}">
+             <embed src="${url}" type="${mime}" />
+          </object>
+        % else:
+          <p>It appears you don't have support for the filetype in this web
+            browser. <a href="${url}" class="nospinner">Click here to download the File.</a></p>
+        % endif
     % endif
   </div>
   <div id="filepreviewModal" class="modal fade" tabindex="-1" role="dialog">
