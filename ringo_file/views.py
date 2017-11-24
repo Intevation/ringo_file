@@ -43,7 +43,7 @@ def save_file(request, item):
         item.data = data
         item.size = len(data)
         item.mime = mimetypes.guess_type(filename)[0]
-        if item.mime.startswith("image/"):
+        if item.mime and item.mime.startswith("image/"):
             item.thumbnail = create_thumbnail(data)
         if not request.POST.get('name'):
             item.name = filename
@@ -76,15 +76,20 @@ def download(request):
     item = result['item']
     response = request.response
     extension = ""
+    label = item.get_value("name", expand=True)
     if item.mime:
         response.content_type = str(item.mime)
-        if str(item.mime) == "text/plain":
-            extension = ".txt"
-        else:
-            extension = mimetypes.guess_extension(item.mime)
-    label = item.get_value("name", expand=True)
-    filename = "%(filename)s%(suffix)s" % {"filename": label,
+        if mimetypes.guess_type(label) != item.mime:
+            if str(item.mime) == "text/plain":
+                extension = ".txt"
+            else:
+                extension = mimetypes.guess_extension(item.mime)
+            filename = "%(filename)s%(suffix)s" % {"filename": label,
                                            "suffix": extension}
+        else:
+            filename = label
+    else: # Could not determine mime type on import
+        filename = label
     if thumbnail and item.thumbnail:
         filename = "thumb_" + filename
     response.content_disposition = 'attachment; filename="%s"' % filename
