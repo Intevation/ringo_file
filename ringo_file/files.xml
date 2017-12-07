@@ -3,7 +3,8 @@
   <source>
     <entity id="name" name="name" label="Name" type="string">
       <help>You can define an alternative name for the file. If left blank
-      than the origin filename will be used as name.</help>
+        than the origin filename will be used as name. Please ommit any
+        suffixes like "pdf" or "text"</help>
     </entity>
     <entity id="file" name="_file" label="File" type="file">
       <validator src="ringo_file.views.empty_file_validator" msg="This field is required. You must provide a value"/>
